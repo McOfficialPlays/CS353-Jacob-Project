@@ -16,7 +16,8 @@ public class DataStorageAPIPrototype {
 			public String getIdentifier() {
 				// TODO Auto-generated method stub
 				return "PrototypeID";
-			}};
+			}
+		};
         OutputDestination outputDestination = new OutputDestination() {
         	//Prototype output destination.
         };

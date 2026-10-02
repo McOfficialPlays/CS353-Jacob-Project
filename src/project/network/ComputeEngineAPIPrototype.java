@@ -15,7 +15,8 @@ public class ComputeEngineAPIPrototype {
 			public String getIdentifier() {
 				// TODO Auto-generated method stub
 				return "PrototypeID";
-			}};
+			}
+		};
 		OutputDestination outputDestination = new OutputDestination() {};
 		ResultDelimiters delimiters = ResultDelimiters.defaults();
         JobRequest request = new JobRequest() {
@@ -36,7 +37,8 @@ public class ComputeEngineAPIPrototype {
 			public ResultDelimiters getDelimiters() {
 				// TODO Auto-generated method stub
 				return delimiters;
-			}};
+			}
+		};
 			
         api.submitJob(request);
     }
