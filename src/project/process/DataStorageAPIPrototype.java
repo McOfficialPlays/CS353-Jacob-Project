@@ -10,9 +10,19 @@ public class DataStorageAPIPrototype {
      
     @ProcessAPIPrototype
     public void prototype(DataStorageAPI api) {
-        InputSource inputSource = null;
-        OutputDestination outputDestination = null;
-        OutputData output = null;
+        InputSource inputSource = new InputSource() {
+
+			@Override
+			public String getIdentifier() {
+				// TODO Auto-generated method stub
+				return "PrototypeID";
+			}};
+        OutputDestination outputDestination = new OutputDestination() {
+        	//Prototype output destination.
+        };
+        OutputData output = new OutputData() {
+        	//Prototype output data.
+        };
         api.readInput(inputSource);
         api.writeOutput(outputDestination, output);
     }

@@ -10,7 +10,13 @@ public class ComputationAPIPrototype {
      
     @ConceptualAPIPrototype
     public void prototype(ComputationAPI api) {
-        int input = 84;
+    	ComputationInput input = new ComputationInput() {
+    	    @Override
+    	    public int getValue() {
+    	        return 84;
+    	    }
+    	};
+
         api.compute(input);
     }
 }
