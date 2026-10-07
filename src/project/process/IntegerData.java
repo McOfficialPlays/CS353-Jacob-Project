@@ -1,5 +1,7 @@
 package project.process;
 
-public interface IntegerData {
+import java.util.List;
 
+public interface IntegerData {
+	List<Integer> getValues();
 }
