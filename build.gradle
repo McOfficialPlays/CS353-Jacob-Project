@@ -28,4 +28,14 @@ dependencies {
 
 test {
     useJUnitPlatform()
+     filter {
+        //include specific method in any of the tests
+        includeTestsMatching "integrationTest"
+
+        //include all tests from package
+        includeTestsMatching "testComputationResult"
+
+        //include all integration tests
+        includeTestsMatching "testReadInput"
+    }
 }
