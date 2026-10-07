@@ -29,13 +29,8 @@ dependencies {
 test {
     useJUnitPlatform()
      filter {
-        //include specific method in any of the tests
-        includeTestsMatching "integration.integrationTest"
-
-        //include all tests from package
-        includeTestsMatching "smoketests.testComputationResult"
-
-        //include all integration tests
-        includeTestsMatching "smoketests.testReadInput"
+        excludeTestsMatching "smoketests.TestComputationAPI"
+        excludeTestsMatching "smoketests.TestDataStorageAPI"
+        excludeTestsMatching "integration.ComputeEngineIntegrationTest"
     }
 }
