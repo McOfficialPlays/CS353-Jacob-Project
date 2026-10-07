@@ -1,5 +1,7 @@
 package project.process;
 
-public interface OutputData {
+import java.util.List;
 
+public interface OutputData {
+	List<String> getValues();
 }
