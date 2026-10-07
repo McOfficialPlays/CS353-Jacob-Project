@@ -1,7 +1,5 @@
 package checkpoint3;
 
-import org.junit.jupiter.api.Assertions;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -61,7 +59,7 @@ public class ComputeEngineIntegrationTest {
 		};
 		compute.submitJob(request);
 		//expected prime factorization
-		List<String> expected = Arrays.asList("1","2 5","5 5");
+		List<String> expected = Arrays.asList("1:1","10:2;5","25:5;5");
 
 		assertEquals(expected, outputDestination.getOutput());
 	
