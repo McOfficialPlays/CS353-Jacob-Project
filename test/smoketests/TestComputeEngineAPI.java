@@ -1,4 +1,4 @@
-package checkpoint3;
+package smoketests;
 
 import static org.mockito.Mockito.mock;
 

@@ -1,4 +1,4 @@
-package checkpoint3;
+package integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

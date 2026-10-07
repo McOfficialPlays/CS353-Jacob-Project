@@ -1,4 +1,4 @@
-package checkpoint3;
+package integration;
 
 import java.util.List;
 
