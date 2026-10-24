@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,11 +15,16 @@ public class DataStorage implements DataStorageAPI {
 		List<Integer> values = new ArrayList<Integer>();
 		File inputFile = new File(source.getIdentifier());
 		try(Scanner s = new Scanner(inputFile)){
-			while(s.hasNextLine()) {
+			s.useDelimiter(",");
+			while(s.hasNext()) {
 				//current format each line has an integer on it that is the number you want to factor
-				String line = s.nextLine().trim();
-				if(!line.isEmpty()) {
-					values.add(Integer.parseInt(line));
+				String token = s.next().trim();
+				if(!token.isEmpty()) {
+					try {
+                        values.add(Integer.parseInt(token));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid integer: \"" + token + "\"");
+                    }
 				}
 			}
 		}catch(FileNotFoundException e) {

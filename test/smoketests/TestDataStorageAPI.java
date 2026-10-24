@@ -23,7 +23,7 @@ public class TestDataStorageAPI {
 	        // Create a temporary input file
 	        Path file = Files.createTempFile("input", ".txt");
 	        try {
-	            Files.write(file, Arrays.asList("1", "10", "25"));
+	            Files.writeString(file, "1, 10, 25");
 
 	            // Mock the input source
 	            InputSource source = mock(InputSource.class);
