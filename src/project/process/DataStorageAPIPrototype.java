@@ -19,8 +19,15 @@ public class DataStorageAPIPrototype {
 				// TODO Auto-generated method stub
 				return "PrototypeID";
 			}
+
 		};
         OutputDestination outputDestination = new OutputDestination() {
+
+			@Override
+			public String getPath() {
+				// TODO Auto-generated method stub
+				return null;
+			}
         	//Prototype output destination.
         };
         OutputData output = new OutputData() {
