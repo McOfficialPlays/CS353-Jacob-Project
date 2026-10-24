@@ -15,4 +15,9 @@ public class InMemoryOutput implements OutputDestination {
 	 public void setOutput(List<String> output) {
 	        this.output = output;
 	    }
+	 @Override
+	 public String getPath() {
+		// TODO Auto-generated method stub
+		return "path";
+	 }
 }
