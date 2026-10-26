@@ -23,7 +23,8 @@ public class ComputeEngineAPIPrototype {
 			public String getPath() {
 				// TODO Auto-generated method stub
 				return null;
-			}};
+			}
+		};
 		ResultDelimiters delimiters = ResultDelimiters.defaults();
         JobRequest request = new JobRequest() {
 
