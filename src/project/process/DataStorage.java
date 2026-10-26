@@ -43,14 +43,16 @@ public class DataStorage implements DataStorageAPI {
 	@Override
 	public void writeOutput(OutputDestination destination, OutputData output) {
 		// TODO Auto-generated method stub
-		
 		File outputFile = new File(destination.getPath());
-		try(FileWriter fw = new FileWriter(outputFile, true); PrintWriter pw = new PrintWriter(fw)){
-			pw.println((output.getValues().toString()));
-		}catch(IOException e) {
-			System.out.println("File not found.");
-			
-		}
+
+		try (FileWriter fw = new FileWriter(outputFile);
+		         PrintWriter pw = new PrintWriter(fw)) {
+
+		        pw.println(output.getValues());
+
+		    } catch (IOException e) {
+		        throw new RuntimeException("Failed to write output file.", e);
+		    }
 		
 	}
 }
