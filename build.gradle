@@ -21,7 +21,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
+    testImplementation('org.junit.jupiter:junit-jupiter:5.14.4')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
 	testImplementation('org.mockito:mockito-core:5.10.0')
 	implementation('com.google.code.gson:gson:2.13.1')
 	implementation('fr.inria.gforge.spoon:spoon-core:11.4.0')
@@ -30,9 +31,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-     filter {
-        excludeTestsMatching "smoketests.TestComputationAPI"
-        excludeTestsMatching "smoketests.TestDataStorageAPI"
-        excludeTestsMatching "integration.ComputeEngineIntegrationTest"
-    }
 }
