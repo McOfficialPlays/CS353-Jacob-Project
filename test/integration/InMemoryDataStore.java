@@ -26,11 +26,24 @@ public class InMemoryDataStore implements DataStorageAPI {
 	}
 
 	@Override
-	public void writeOutput(OutputDestination destination, OutputData output) {
+	public boolean writeOutput(OutputDestination destination, OutputData output) {
 		// TODO Auto-generated method stub
-		InMemoryOutput outputDestination =  (InMemoryOutput)destination;
-		List<String> out = output.getValues();
-		outputDestination.setOutput(out);
+		if(destination == null || output == null) {
+			return false;
+		}
+		try {
+			InMemoryOutput outputDestination =  (InMemoryOutput)destination;
+			List<String> out = output.getValues();
+			if(out == null){
+				return false;
+			}
+			
+			outputDestination.setOutput(out);
+			
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
 	}
 
 }
