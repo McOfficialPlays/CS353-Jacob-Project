@@ -4,5 +4,5 @@ import project.annotations.NetworkAPI;
 
 @NetworkAPI
 public interface ComputeEngineAPI {
-    void submitJob(JobRequest request);
+    boolean submitJob(JobRequest request);
 }
