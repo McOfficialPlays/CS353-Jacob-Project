@@ -83,9 +83,34 @@ public class TestComputeEngineAPI {
         ComputeEngineAPI computeEngine =
                 new ComputeEngine(dataStorage, computation);
 
-        Assertions.assertThrows(
-            IllegalArgumentException.class,
-            () -> computeEngine.submitJob(null)
-        );
+        Assertions.assertFalse(computeEngine.submitJob(null));
     }
+
+    @Test
+	void testComputationException() {
+
+    	DataStorageAPI dataStorage = mock(DataStorageAPI.class);
+    	ComputationAPI computation = mock(ComputationAPI.class);
+
+    	JobRequest request = mock(JobRequest.class);
+    	InputSource source = mock(InputSource.class);
+    	OutputDestination destination = mock(OutputDestination.class);
+
+    	IntegerData inputData = mock(IntegerData.class);
+
+    	when(request.getInputSource()).thenReturn(source);
+    	when(request.getOutputDestination()).thenReturn(destination);
+
+    	when(dataStorage.readInput(source)).thenReturn(inputData);
+    	when(inputData.getValues()).thenReturn(Arrays.asList(10));
+
+    	// Force the computation component to fail
+    	when(computation.compute(any(ComputationInput.class))).thenThrow(new RuntimeException("Simulated computation failure"));
+
+    	ComputeEngineAPI engine = new ComputeEngine(dataStorage, computation);
+
+    	// Exception should be caught and converted to false
+    	Assertions.assertFalse(engine.submitJob(request));
+    }
+
 }
