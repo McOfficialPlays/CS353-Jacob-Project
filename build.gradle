@@ -31,4 +31,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    //this is for testing locally
+    /*filter {
+        excludeTestsMatching "Checkpoint1TestSuite"
+        
+    }**/
 }
