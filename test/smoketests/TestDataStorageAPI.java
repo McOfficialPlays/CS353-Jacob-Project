@@ -42,5 +42,24 @@ public class TestDataStorageAPI {
 	            Files.deleteIfExists(file);
 	        }
 	 	}
+	 @Test
+	 void testNullInputSource() {
+
+	     DataStorageAPI dataStorage = new DataStorage();
+
+	     IntegerData result = dataStorage.readInput(null);
+
+	     Assertions.assertNull(result);
+	 }
+
+	 @Test
+	 void testNullOutputDestination() {
+
+	     DataStorageAPI dataStorage = new DataStorage();
+
+	     boolean result = dataStorage.writeOutput(null, null);
+
+	     Assertions.assertFalse(result);
+	 }
 	
 }

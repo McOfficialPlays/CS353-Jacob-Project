@@ -10,70 +10,102 @@ import project.process.DataStorageAPI;
 import project.process.IntegerData;
 import project.process.OutputData;
 
-public class ComputeEngine implements ComputeEngineAPI{
-	private DataStorageAPI dataStorage;
+public class ComputeEngine implements ComputeEngineAPI {
+	
+    private DataStorageAPI dataStorage;
     private ComputationAPI computation;
 
     public ComputeEngine(DataStorageAPI dataStorage, ComputationAPI computation) {
+        // Validate constructor parameters
+        if (dataStorage == null || computation == null) {
+            throw new IllegalArgumentException("Dependencies cannot be null");
+        }
         this.dataStorage = dataStorage;
         this.computation = computation;
     }
-	@Override
-	public void submitJob(JobRequest job) {
-		if(job == null){
-			throw new IllegalArgumentException("Job request cannot be null");
-		}
-		//Read The Integer Data
-		IntegerData inputData = dataStorage.readInput(job.getInputSource());
-		if(inputData == null){
-			throw new IllegalArgumentException("Failed To read Input data");
-		}
-		List<Integer> integers = inputData.getValues();
-		List<String> results = new ArrayList<>();
-		
-		//2. determine delimiters
-		ResultDelimiters delimiters = job.getDelimiters();
-		if(delimiters == null) {
-			delimiters = ResultDelimiters.defaults();
-		}
-		//3. compute prime numbers for each integer
-		for(Integer number : integers) {
-			ComputationInput input = new ComputationInput() {
-				@Override
-				public int getValue(){
-					return number;
-				}
-			};
-		
-			ComputationResult result = computation.compute(input);
-			//4. Format result
-			StringBuilder formatted = new StringBuilder();
-			formatted.append(result.getInput());
-            formatted.append(delimiters.getInputResultDelimiter());
 
-            List<Integer> factors = result.getPrimeFactors();
+    @Override
+    public boolean submitJob(JobRequest job) {
+        // Validate job request
+        if (job == null) {
+            return false;
+        }
+        try {
+            // Validate input and output sources
+            if (job.getInputSource() == null || job.getOutputDestination() == null) {
+                return false;
+            }
+            // Read and check integer data
+            IntegerData inputData = dataStorage.readInput(job.getInputSource());
+            if (inputData == null) {
+                return false;
+            }
+            //read and check integers
+            List<Integer> integers = inputData.getValues();
+            if (integers == null) {
+                return false;
+            }
+            
+            List<String> results = new ArrayList<>();
+            // Determine delimiters
+            ResultDelimiters delimiters = job.getDelimiters();
+            if (delimiters == null) {
+            	delimiters = ResultDelimiters.defaults();
+            }
+            if (delimiters.getInputResultDelimiter() == null || delimiters.getResultDelimiter() == null) {
+                return false;
+            }
 
-            for (int i = 0; i < factors.size(); i++) {
-                if (i > 0) {
-                    formatted.append(delimiters.getResultDelimiter());
+            // Compute prime factors for each integer
+            for (Integer number : integers) {
+                // Validate number
+                if (number == null || number <= 0) {
+                    return false;
+                }
+                ComputationInput input = new ComputationInput() {
+                    @Override
+                    public int getValue() {
+                        return number;
+                    }
+                };
+                ComputationResult result = computation.compute(input);
+                if (result == null || result.getPrimeFactors() == null) {
+                    return false;
                 }
 
-                formatted.append(factors.get(i));
+                // Format result
+                StringBuilder formatted = new StringBuilder();
+
+                formatted.append(result.getInput());
+                formatted.append(delimiters.getInputResultDelimiter());
+
+                List<Integer> factors = result.getPrimeFactors();
+
+                for (int i = 0; i < factors.size(); i++) {
+                    if (i > 0) {
+                        formatted.append(delimiters.getResultDelimiter());
+                    }
+                    formatted.append(factors.get(i));
+                }
+                results.add(formatted.toString());
             }
 
-            results.add(formatted.toString());
+            // Wrap output
+            OutputData output = new OutputData() {
+                @Override
+                public List<String> getValues() {
+                    return results;
+                }
+            };
+
+            // Write results
+            boolean success = dataStorage.writeOutput(job.getOutputDestination(), output);
+            return success;
+
+        } catch (Exception e) {
+            // Prevent exceptions from escaping the API boundary
+            System.err.println("ComputeEngine failed: " + e.getMessage());
+            return false;
         }
-
-        // 5. Wrap output
-        OutputData output = new OutputData() {
-            @Override
-            public List<String> getValues() {
-                return results;
-            }
-        };
-
-        // 6. Write results
-        dataStorage.writeOutput(job.getOutputDestination(), output);
-       
     }
 }
