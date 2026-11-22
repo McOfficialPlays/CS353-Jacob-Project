@@ -10,10 +10,6 @@ import project.process.DataStorageAPI;
 
 
 public class ComputeEngine extends AbstractComputeEngine implements ComputeEngineAPI {
-	
-    
-    private ComputationAPI computation;
-
     public ComputeEngine(DataStorageAPI dataStorage, ComputationAPI computation) {
        super(dataStorage, computation);
     }
