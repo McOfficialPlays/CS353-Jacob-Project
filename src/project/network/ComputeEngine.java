@@ -7,12 +7,11 @@ import project.conceptual.ComputationAPI;
 import project.conceptual.ComputationInput;
 import project.conceptual.ComputationResult;
 import project.process.DataStorageAPI;
-import project.process.IntegerData;
-import project.process.OutputData;
+
 
 public class ComputeEngine extends AbstractComputeEngine implements ComputeEngineAPI {
 	
-    private DataStorageAPI dataStorage;
+    
     private ComputationAPI computation;
 
     public ComputeEngine(DataStorageAPI dataStorage, ComputationAPI computation) {
