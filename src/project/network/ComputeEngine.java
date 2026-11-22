@@ -10,18 +10,13 @@ import project.process.DataStorageAPI;
 import project.process.IntegerData;
 import project.process.OutputData;
 
-public class ComputeEngine implements ComputeEngineAPI {
+public class ComputeEngine extends AbstractComputeEngine implements ComputeEngineAPI {
 	
     private DataStorageAPI dataStorage;
     private ComputationAPI computation;
 
     public ComputeEngine(DataStorageAPI dataStorage, ComputationAPI computation) {
-        // Validate constructor parameters
-        if (dataStorage == null || computation == null) {
-            throw new IllegalArgumentException("Dependencies cannot be null");
-        }
-        this.dataStorage = dataStorage;
-        this.computation = computation;
+       super(dataStorage, computation);
     }
 
     @Override
@@ -31,31 +26,18 @@ public class ComputeEngine implements ComputeEngineAPI {
             return false;
         }
         try {
-            // Validate input and output sources
-            if (job.getInputSource() == null || job.getOutputDestination() == null) {
-                return false;
-            }
-            // Read and check integer data
-            IntegerData inputData = dataStorage.readInput(job.getInputSource());
-            if (inputData == null) {
-                return false;
-            }
+            // Validate input and output sources (now in abstract)
             //read and check integers
-            List<Integer> integers = inputData.getValues();
+            List<Integer> integers = readInput(job);
             if (integers == null) {
                 return false;
             }
-            
-            List<String> results = new ArrayList<>();
             // Determine delimiters
-            ResultDelimiters delimiters = job.getDelimiters();
+            ResultDelimiters delimiters = getDelimiters(job);
             if (delimiters == null) {
-            	delimiters = ResultDelimiters.defaults();
-            }
-            if (delimiters.getInputResultDelimiter() == null || delimiters.getResultDelimiter() == null) {
                 return false;
             }
-
+            List<String> results = new ArrayList<>();
             // Compute prime factors for each integer
             for (Integer number : integers) {
                 // Validate number
@@ -74,33 +56,13 @@ public class ComputeEngine implements ComputeEngineAPI {
                 }
 
                 // Format result
-                StringBuilder formatted = new StringBuilder();
-
-                formatted.append(result.getInput());
-                formatted.append(delimiters.getInputResultDelimiter());
-
-                List<Integer> factors = result.getPrimeFactors();
-
-                for (int i = 0; i < factors.size(); i++) {
-                    if (i > 0) {
-                        formatted.append(delimiters.getResultDelimiter());
-                    }
-                    formatted.append(factors.get(i));
+                String formatted = formatResult(result, delimiters);
+                results.add(formatted);
+                if (delimiters == null) {
+                    return false;
                 }
-                results.add(formatted.toString());
             }
-
-            // Wrap output
-            OutputData output = new OutputData() {
-                @Override
-                public List<String> getValues() {
-                    return results;
-                }
-            };
-
-            // Write results
-            boolean success = dataStorage.writeOutput(job.getOutputDestination(), output);
-            return success;
+            return writeResults(job,results);
 
         } catch (Exception e) {
             // Prevent exceptions from escaping the API boundary

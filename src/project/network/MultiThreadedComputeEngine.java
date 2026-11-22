@@ -29,7 +29,6 @@ public class MultiThreadedComputeEngine extends AbstractComputeEngine implements
                 return false;
             }
             List<Future<ComputationResult>> futures = new ArrayList<>();
-
             // Submit computations to threads
             for (Integer number : integers) {
                 ComputationInput input = new ComputationInput() {
@@ -43,7 +42,6 @@ public class MultiThreadedComputeEngine extends AbstractComputeEngine implements
             }
             // Collect results in input order
             List<String> results = new ArrayList<>();
-
             for (Future<ComputationResult> future : futures) {
                 ComputationResult result = future.get();
                 String formatted = formatResult(result, delimiters);
@@ -58,13 +56,10 @@ public class MultiThreadedComputeEngine extends AbstractComputeEngine implements
             Thread.currentThread().interrupt();
             return false;
         } catch (Exception e) {
-            System.err.println(
-                "MultiThreadedComputeEngine failed: "
-                + e.getMessage());
+            System.err.println("MultiThreadedComputeEngine failed: " + e.getMessage());
             return false;
         }
     }
-
     @Override
     public void close() {
         threadPool.shutdown();
