@@ -1,4 +1,4 @@
-package threadHarness;
+package threadharness;
 
 import java.io.File;
 import java.io.IOException;
