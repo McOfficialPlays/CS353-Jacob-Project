@@ -9,14 +9,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import project.conceptual.Computation;
 import project.conceptual.ComputationAPI;
-import project.network.ComputeEngine;
 import project.network.ComputeEngineAPI;
+import project.network.MultiThreadedComputeEngine;
 import project.process.DataStorage;
 import project.process.DataStorageAPI;
 
@@ -33,9 +34,12 @@ public class TestMultiUser {
 		// Store it in the 'coordinator' instance variable
 		 DataStorageAPI dataStorage = new DataStorage();
 		 ComputationAPI computation = new Computation();
-		 coordinator = new ComputeEngine(dataStorage, computation);
+		 coordinator = new MultiThreadedComputeEngine(dataStorage, computation);
 	}
-
+	@AfterEach
+	public void cleanup() {
+	    ((MultiThreadedComputeEngine) coordinator).close();
+	}
 	@Test
 	public void compareMultiAndSingleThreaded() throws Exception {
 		int nThreads = 4;
