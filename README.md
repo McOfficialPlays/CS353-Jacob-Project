@@ -3,7 +3,7 @@
 This system will perform prime factorization.
 
 For each positive integer, the system finds all of its prime factors. Repeated factors are included when a prime divides the input more than once.
-
+This uses up to 8 threads.
 For example:
 
 Input: 84

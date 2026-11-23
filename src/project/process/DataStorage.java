@@ -17,11 +17,12 @@ public class DataStorage implements DataStorageAPI {
 		}
 		List<Integer> values = new ArrayList<Integer>();
 		try {
-			File inputFile = new File(source.getIdentifier());
 			String path = source.getIdentifier();
 			if(path == null || path.isBlank()) {
 				return null;
 			}
+			File inputFile = new File(path);
+			
 			try(Scanner s = new Scanner(inputFile)){
 				s.useDelimiter(",");
 				while(s.hasNext()) {
